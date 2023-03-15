@@ -39,7 +39,11 @@ jobs:
           path: |
             . 
             !venv/
-
+- script: |
+    sudo -- sh -c -e "echo '{ASE's Private IP}    {ASE Name}.appserviceenvironment.net' >> /etc/hosts";
+    sudo -- sh -c -e "echo '{ASE's Private IP}    scm.{ASE Name}.appserviceenvironment.net' >> /etc/hosts";
+    sudo -- sh -c -e "echo '{ASE's Private IP}    {AppName}.scm.{ASE Name}.appserviceenvironment.net' >> /etc/hosts";
+  displayName: 'Fake DNS entries required for deployment'
   deploy:
     runs-on: ubuntu-latest
     needs: build
