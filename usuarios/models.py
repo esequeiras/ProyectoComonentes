@@ -4,3 +4,5 @@ from django.db import models
 class Usuario(models.Model):
     nombre=models.TextField()
     correo=models.TextField()
+    contrasena=models.TextField()
+
