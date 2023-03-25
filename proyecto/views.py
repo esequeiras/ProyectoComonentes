@@ -12,11 +12,12 @@ def home_view(request):
     toma un request (Django envia un request) y retorna un html
     """
     us=Usuario.objects.get(id=1)
-
+    my_lista=Usuario.objects.all()
     datos={
         "nombre":us.nombre,
         "correo":us.correo,
-        "contrasena":us.contrasena
+        "contrasena":us.contrasena,
+        "lista_objetos":my_lista 
     }
    # para crear un objesto en la bd
     # usuario=Usuario.objects.create(nombre=, correo=, contrasena)

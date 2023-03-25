@@ -1,8 +1,17 @@
 {% extends "base.html" %}
-
+<!-- pagina principal-->
 {% block content %}
-<h1>Mi nombre es: {{ nombre }}</h1>
-<h1>Mi correo: {{ correo }}</h1>
-<h1>Mi contrasena: {{ contrasena }}</h1>
+<h1>Pruebas</h1>
 
+    <p>Mi nombre es: {{ nombre }}</p>
+    <p>Mi correo: {{ correo }}</p>
+    <p>Mi contrasena: {{ contrasena }}</p>
+
+<!-- para listar-->
+
+    <ul> 
+        {% for i in lista_objetos %}
+            <li><a href="/usuarios/{{x.id}}/"> {{i.nombre}}</a></li>
+        {% endfor %}
+    </ul>
 {% endblock content %}
