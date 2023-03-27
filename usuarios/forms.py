@@ -6,7 +6,7 @@ class UsuarioForm(forms.Form):
     correo=forms.CharField(required=True)
     contrasena=forms.CharField(required=True)
     fecha_nacimiiento=forms.DateTimeField()
-    contrasena=forms.CharField(required=True)
+    contrasena_confirmacion=forms.CharField(required=True)
     identificacion=forms.CharField(required=True)
     establecimiento_de_salud=forms.CharField(required=True)
     direccion=forms.CharField(required=True)
