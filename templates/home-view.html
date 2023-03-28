@@ -2,16 +2,12 @@
 <!-- pagina principal-->
 {% block content %}
 <h1>Pruebas</h1>
-
-    <p>Mi nombre es: {{ nombre }}</p>
-    <p>Mi correo: {{ correo }}</p>
-    <p>Mi contrasena: {{ contrasena }}</p>
-
 <!-- para listar-->
 {% csrf_token %}
     <ul> 
         {% for i in lista_objetos %}
-            <li><a href="/usuarios/{{i.id}}/"> {{i.nombre}}</a></li>
+            <li><a href="/usuarios/{{i.id}}/"> {{i.nombre}}{{i.correo}}{{i.contrasena}}</a></li>
+
         {% endfor %}
     </ul>
 {% endblock content %}
