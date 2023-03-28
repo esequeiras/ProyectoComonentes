@@ -18,6 +18,7 @@ def usuario_registro(request):
     if request.method=="POST":
         # pasarle el request al formulario para que haga las validaciones del lado del servidor
         form=UsuarioForm(request.POST)
+        print(request.POST)
         if form.is_valid():
             print("informacion valida")
             usuario_nuevo=Usuario()
@@ -25,11 +26,18 @@ def usuario_registro(request):
             usuario_nuevo.correo=form.cleaned_data['correo']
             usuario_nuevo.contrasena=form.cleaned_data['contrasena']
             usuario_nuevo.direccion=form.cleaned_data['direccion']
-            usuario_nuevo.fecha_nacimiento=form.cleaned_data['fecha_nacimiento']
+            #usuario_nuevo.fecha_nacimiento=form.cleaned_data['fecha_nacimiento']
             usuario_nuevo.identificacion=form.cleaned_data['identificacion']
             usuario_nuevo.establecimiento_de_salud=form.cleaned_data['establecimiento_de_salud']
             usuario_nuevo.save()#guardo en la bd local
-
+            my_lista=Usuario.objects.all()
+            datos={
+                "lista_objetos":my_lista 
+            }
+            STRING_HTML=render_to_string("home-view.html",context=datos)#el nombre del html
+            return HttpResponse(STRING_HTML)
+           
+           
             #Usuario.objects.create(nombre=request.POST["nombre"], correo=request.POST["correo"], contrasena=request.POST["contrasena"],direccion=request.POST["direccion"],fecha_nacimiento=request.POST["fecha_nacimiento"],identificacion=request.POST["identificacion"],establecimiento_de_salud=request.POST["establecimiento_de_salud"])
         else:
             print("No valida")

@@ -8,7 +8,7 @@
     <p>Mi contrasena: {{ contrasena }}</p>
 
 <!-- para listar-->
-
+{% csrf_token %}
     <ul> 
         {% for i in lista_objetos %}
             <li><a href="/usuarios/{{i.id}}/"> {{i.nombre}}</a></li>

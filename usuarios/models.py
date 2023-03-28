@@ -6,7 +6,7 @@ class Usuario(models.Model):
     correo=models.TextField()
     contrasena=models.TextField()
     direccion=models.TextField()
-    fecha_nacimiento=models.DateField()
+    #fecha_nacimiento=models.TextField()
     identificacion=models.TextField()
     establecimiento_de_salud=models.TextField()
 
