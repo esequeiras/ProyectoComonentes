@@ -5,12 +5,33 @@ from django.http import HttpResponse
 from usuarios.models import Usuario 
 from django.template.loader import render_to_string
 from . import views
-from .forms import UsuarioForm
+from .forms import UsuarioForm,LoginForm
 
-def usuario_inicio(request):   
-    STRING_HTML=render_to_string("inicio-usuarios.html")#el nombre del html
+def usuario_inicio(request): 
+    form=LoginForm() 
     
-    return HttpResponse(STRING_HTML)
+    if request.method=="POST":
+        # pasarle el request al formulario para que haga las validaciones del lado del servidor
+        form=LoginForm(request.POST)
+        if form.is_valid():
+            print("informacion valida")
+   
+            correo=form.cleaned_data['correo']
+            contrasena=form.cleaned_data['contrasena']
+            my_lista=Usuario.objects.all()
+            for us in my_lista:
+                if us.correo==correo and us.contrasena==contrasena:
+                    datos={
+                        "nombre":us.nombre
+                    }
+                    STRING_HTML=render_to_string("perfil-usuario.html",context=datos)#el nombre del html
+                    return HttpResponse(STRING_HTML)
+                else:
+                    print('El usuario no se encontro')                
+        else:
+            print("No valida") 
+    return render(request,"inicio-usuarios.html",{'form':form})
+
 
 def usuario_registro(request):
     form=UsuarioForm()
@@ -51,3 +72,18 @@ def usuario_registro(request):
     #STRING_HTML=render_to_string("home-view.html")#el nombre del html
     #return render(request,'home-view.html',context=datos)
     return render(request,"registro-usuarios.html",{'form':form})
+
+
+def home_view(request):
+    """
+    toma un request (Django envia un request) y retorna un html
+    """
+    my_lista=Usuario.objects.all()
+    datos={
+        "lista_objetos":my_lista 
+    }
+   # para crear un objesto en la bd
+    # usuario=Usuario.objects.create(nombre=, correo=, contrasena)
+    
+    STRING_HTML=render_to_string("home-view.html",context=datos)#el nombre del html
+    return HttpResponse(STRING_HTML)
