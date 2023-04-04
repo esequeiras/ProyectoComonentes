@@ -22,6 +22,6 @@ class UsuarioForm(forms.Form):
 #widget
 class LoginForm(forms.Form):
     correo=forms.CharField(label='Correo Electrónico',required=True)
-    contrasena=forms.CharField(label='Contraseña',required=True)
+    contrasena=forms.CharField(widget=forms.PasswordInput,label='Contraseña',required=True)
 
  
