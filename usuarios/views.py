@@ -1,11 +1,12 @@
 from django.shortcuts import render
-
-# Create your views here.
 from django.http import HttpResponse
 from usuarios.models import Usuario 
+from django.contrib import messages
 from django.template.loader import render_to_string
 from . import views
 from .forms import UsuarioForm,LoginForm
+# Create your views here.
+
 
 def usuario_inicio(request): 
     form=LoginForm() 
@@ -25,9 +26,8 @@ def usuario_inicio(request):
                         "nombre":us.nombre
                     }
                     STRING_HTML=render_to_string("perfil-usuario.html",context=datos)#el nombre del html
-                    return HttpResponse(STRING_HTML)
-                else:
-                    print('El usuario no se encontro')                
+                    return HttpResponse(STRING_HTML)   
+            messages.add_message(request=request,level=messages.ERROR,message="Datos incorrectos, aun no tienes una cuenta?")     
         else:
             print("No valida") 
     return render(request,"inicio-usuarios.html",{'form':form})
