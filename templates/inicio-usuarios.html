@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 <!-- As a heading -->
 {% block content %}
+{% if messages %}
+  {% for message in messages %}
+  <div{% if message.tags %} class="alert alert-danger"{% endif %}>{{ message }}</div>
+  {% endfor %}
+        
+{% endif %}
 <div class="global-container">
   <div class="card login-form">
     <div class="card-body">
@@ -8,12 +14,7 @@
       <div class="card-text">
 
         <form  method="post">{% csrf_token %}
-          {% if messages %}
-              {% for message in messages %}
-              <div{% if message.tags %} class="alert alert-danger"{% endif %}>{{ message }}</div>
-              {% endfor %}
-        
-          {% endif %}
+          
             {% for campo in form %}
               <div class="form-group">
                 {{ campo.label_tag }}
