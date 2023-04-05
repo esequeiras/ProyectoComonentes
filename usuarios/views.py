@@ -23,7 +23,10 @@ def usuario_inicio(request):
             for us in my_lista:
                 if us.correo==correo and us.contrasena==contrasena:
                     datos={
-                        "nombre":us.nombre
+                        "nombre":us.nombre,
+                        "correo": us.correo,
+                        "establecimiento_de_salud":us.establecimiento_de_salud,
+                        "direccion":us.direccion
                     }
                     STRING_HTML=render_to_string("perfil-usuario.html",context=datos)#el nombre del html
                     return HttpResponse(STRING_HTML)   
