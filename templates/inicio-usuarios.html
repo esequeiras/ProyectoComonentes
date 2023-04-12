@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
+
+
+<link rel="stylesheet" href="{% static 'css/inicio.css' %}" type="text/css">
+
 <!-- As a heading -->
 {% block content %}
 {% if messages %}
@@ -22,7 +27,8 @@
         
               </div>
             {% endfor %}
-            <input type="submit" value="iniciar sesion">
+            <button type="submit" class="btn btn-primary btn-block">iniciar sesion</button>
+            
             <div><a href="{% url 'registro' %}">Crear cuenta</a></div>   
         </form>
       </div>

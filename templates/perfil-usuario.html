@@ -1,11 +1,15 @@
 {% extends "base.html" %}
-{% block content %}
-<h1>Perfil</h1>
-<!-- para listar-->
-   {% csrf_token %}
-   <p>{{ nombre }}</p>
-   <p>{{ correo }}</p>
-   <p>{{ establecimiento_de_salud }}</p>
-   <p>{{ direccion }}</p>
 
-{% endblock content %}
+{% block content %}
+<form  method="post">{% csrf_token %}
+    {% for campo in form %}
+      <div>
+        {{ campo.label_tag }}
+        {{ campo}}
+
+      </div>
+    {% endfor %}
+    <input type="submit" value="Modificar"  >
+
+</form>
+{% endblock  %}
