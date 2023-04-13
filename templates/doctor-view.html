@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+<link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+
+<!-- As a heading -->
+{% block content %}
+<h3 class="card-title text-center">Pacientes</h3>
+
+<div class="container table-responsive py-5"> 
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Correo</th>
+        <th scope="col">Direccion</th>
+        <th scope="col">Datos</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in lista_objetos %}
+        <tr>
+          <td>{{i.nombre}}</td>
+          <td>{{i.correo}}</td>
+          <td>@{{i.direccion}}</td>
+          <td><a href="/usuarios/{{i.correo}}/">Ver Datos </a></td>
+
+        </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+</div>
+
+    
+{% endblock  %}

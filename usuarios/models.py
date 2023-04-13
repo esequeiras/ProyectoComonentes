@@ -9,4 +9,5 @@ class Usuario(models.Model):
     fecha_nacimiento=models.TextField(default='')
     identificacion=models.TextField()
     establecimiento_de_salud=models.TextField()
+    tipo=models.TextField(default='paciente')
 

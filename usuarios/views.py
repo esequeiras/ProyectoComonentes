@@ -12,15 +12,19 @@ def usuario_inicio(request):
     form=LoginForm() 
     
     if request.method=="POST":
+        
         # pasarle el request al formulario para que haga las validaciones del lado del servidor
         form=LoginForm(request.POST)
         if form.is_valid():
-            print("informacion valida")
-   
             correo=form.cleaned_data['correo']
             contrasena=form.cleaned_data['contrasena']
+            
             my_lista=Usuario.objects.all()
             for us in my_lista:
+                
+                if us.tipo=="doctor":
+                    return doctor_view(request)
+                
                 if us.correo==correo and us.contrasena==contrasena:
                     datos={
                         "nombre":us.nombre,
@@ -95,16 +99,17 @@ def usuario_modificar(request,datos):
     return render(request,"registro-usuarios.html",{'form':form})
 
 
-def home_view(request):
+def doctor_view(request):
     """
     toma un request (Django envia un request) y retorna un html
     """
-    my_lista=Usuario.objects.all()
+    my_lista = Usuario.objects.filter(tipo="paciente")
+    #my_lista=Usuario.objects.all()
     datos={
         "lista_objetos":my_lista 
     }
    # para crear un objesto en la bd
     # usuario=Usuario.objects.create(nombre=, correo=, contrasena)
-    
-    STRING_HTML=render_to_string("home-view.html",context=datos)#el nombre del html
+
+    STRING_HTML=render_to_string("doctor-view.html",context=datos)#el nombre del html
     return HttpResponse(STRING_HTML)

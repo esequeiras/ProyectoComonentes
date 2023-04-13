@@ -7,7 +7,7 @@ urlpatterns = [
     path('registro/',views.usuario_registro, name="registro"),
     path('modificar/',views.usuario_modificar, name="modificar"),
 
-    path('lista/',views.home_view,name='pruebas'),
+    path('lista/',views.doctor_view,name='lista'),
 
 
 
