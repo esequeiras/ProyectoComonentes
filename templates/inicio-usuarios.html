@@ -2,7 +2,8 @@
 {% load static %}
 
 
-<link rel="stylesheet" src="{% static 'css/inicio.css' %}" >
+
+
 
 <!-- As a heading -->
 {% block content %}
@@ -28,7 +29,6 @@
               </div>
             {% endfor %}
             <button type="submit" class="btn btn-primary btn-block">iniciar sesion</button>
-            
             <div><a href="{% url 'registro' %}">Crear cuenta</a></div>   
         </form>
       </div>
