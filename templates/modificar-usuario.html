@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="global-container">
+    <div class="card login-form">
+      <div class="card-body">
+        <h3 class="card-title text-center">Iniciar Sesion</h3>
+        <div class="card-text">
+  
+          <form class="registro"  method="post">{% csrf_token %}
+            
+              {% for campo in form %}
+              <div class="row mb-4">
+                  {{ campo.label_tag }}
+                  {{ campo}}
+          
+                </div>
+              {% endfor %}
+              <button type="submit" class="btn btn-primary btn-block">Modificar</button>
+                 
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock  %}
