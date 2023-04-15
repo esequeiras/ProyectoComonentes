@@ -1,15 +1,59 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form  method="post">{% csrf_token %}
-    {% for campo in form %}
-      <div>
-        {{ campo.label_tag }}
-        {{ campo}}
+<h1>{{ nombre }}</h1>
+<a href="{% url 'modificar' id %}">ver mi informacion</a>
+<a href="{% url 'modificar' id %}">Sacar Cita</a>
 
-      </div>
-    {% endfor %}
-    <input type="submit" value="Modificar"  >
 
-</form>
+<hr>
+<div class="container table-responsive py-5"> 
+<h1>Medicamentos</h1>
+
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Medicamento</th>
+        <th scope="col">Fecha de prescripcion</th>
+        <th scope="col">Indicacion</th>
+        <th scope="col">Meses de tratamieto</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in lista_medicinas %}
+        <tr>
+          <td>{{ i.medicamento }}</td>
+          <td>{{ i.fecha_prescripcion }}</td>
+          <td>{{ i.indicacion }}</td>
+          <td>{{ i.mese_tratamiento }}</td>
+        {% endfor %}
+        </tr>
+    </tbody>
+
+  </table>
+</div>
+
+<div class="container table-responsive py-5"> 
+<h1>Diagnosticos</h1>
+
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Fecha</th>
+        <th scope="col">Diagnostico</th>
+        <th scope="col">Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>10/10/2023</td>
+          <td>enfermedad</td>
+          <td>activo</td>
+
+        </tr>
+    </tbody>
+
+  </table>
+</div>
+
 {% endblock  %}
