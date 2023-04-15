@@ -41,15 +41,19 @@
       <tr>
         <th scope="col">Fecha</th>
         <th scope="col">Diagnostico</th>
+        <th scope="col">Atendido por</th>
         <th scope="col">Estado</th>
       </tr>
     </thead>
     <tbody>
         <tr>
-          <td>10/10/2023</td>
-          <td>enfermedad</td>
-          <td>activo</td>
+        {% for i in lista_diagnosticos %}
+          <td>{{ i.fecha }}</td>
+          <td>{{ i.diagnostico }}</td>
+          <td>{{ i.doctor }}</td>
+          <td>{{ i.estado }}</td>
 
+        {% endfor %}
         </tr>
     </tbody>
 

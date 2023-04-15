@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from usuarios.models import Usuario,Medicina
+from usuarios.models import Usuario,Medicina,Diagnostico
 from django.contrib import messages
 from django.template.loader import render_to_string
 from . import views
@@ -28,7 +28,7 @@ def usuario_inicio(request):
                     if us.tipo=="doctor":
                         return doctor_view(request)
                     medicinas=Medicina.objects.filter(paciente_id=us.pk) #Filtro por llave foránea
-                    diagnosticos=Medicina.objects.filter(paciente_id=us.pk) #Filtro por llave foránea
+                    diagnosticos=Diagnostico.objects.filter(pacienteD_id=us.pk) #Filtro por llave foránea
 
                     datos={
                         "id":us.pk,

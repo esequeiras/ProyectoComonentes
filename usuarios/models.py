@@ -18,3 +18,10 @@ class Medicina(models.Model):
     mese_tratamiento=models.TextField()
     paciente=models.ForeignKey(Usuario,on_delete=models.CASCADE)
 
+class Diagnostico(models.Model):
+    diagnostico=models.TextField()
+    fecha=models.TextField()
+    estado=models.TextField()
+    doctor=models.TextField()
+    pacienteD=models.ForeignKey(Usuario,on_delete=models.DO_NOTHING)
+
