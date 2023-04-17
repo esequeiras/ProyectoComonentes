@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from . import views
 from .forms import UsuarioForm,LoginForm,MedicamentoForm,DiagnosticoForm
 # Create your views here.
-usuario_log=object
+
 
 def usuario_inicio(request): 
     form=LoginForm() 
@@ -24,8 +24,10 @@ def usuario_inicio(request):
             my_lista=Usuario.objects.all()
             for us in my_lista:   
                 if us.correo==correo and us.contrasena==contrasena:
+                    global LOG_US
+                    LOG_US = us
                     if us.tipo=="doctor":
-                        return doctor_view(request,us.nombre)
+                        return doctor_view(request)
                     medicinas=Medicina.objects.filter(paciente_id=us.pk) #Filtro por llave foránea
                     diagnosticos=Diagnostico.objects.filter(pacienteD_id=us.pk) #Filtro por llave foránea
                     
@@ -70,7 +72,7 @@ def usuario_registro(request):
             #Usuario.objects.create(nombre=request.POST["nombre"], correo=request.POST["correo"], contrasena=request.POST["contrasena"],direccion=request.POST["direccion"],fecha_nacimiento=request.POST["fecha_nacimiento"],identificacion=request.POST["identificacion"],establecimiento_de_salud=request.POST["establecimiento_de_salud"])
         else:
             print("No valida")
-    return render(request,"registro-usuarios.html",{'form':form})
+    return render(request,"registro-usuarios.html",{'form':UsuarioForm()})
 
 
 def usuario_modificar(request,id):
@@ -109,8 +111,8 @@ def usuario_modificar(request,id):
             print("No valida")
     return render(request,"modificar-usuario.html",{'form':form})
 
-
-def doctor_view(request,nombre):
+#listar pacientes
+def doctor_view(request):
     """
     toma un request (Django envia un request) y retorna un html
     """
@@ -119,27 +121,30 @@ def doctor_view(request,nombre):
     print(my_lista)
     datos={
         "lista_objetos":my_lista,
-        "nombreDoc":nombre 
+        "us":LOG_US.nombre
     }
    # para crear un objesto en la bd
     # usuario=Usuario.objects.create(nombre=, correo=, contrasena)
 
     STRING_HTML=render_to_string("doctor-view.html",context=datos)#el nombre del html
     return HttpResponse(STRING_HTML)
+#Registra medicamentos del usuario
 
-def medicamentos_view(request,id):
-    print(id,"--------------------------------------------------")
-    medicinas=Medicina.objects.filter(paciente_id=id) #Filtro por llave foránea
-    
-    form=MedicamentoForm()
-    
+#L------------------------------------------------------------medicamentos del usuario----------------------------------------------------------------------
+def medicamentos_view(request,idUs):
+
+    medicinas=Medicina.objects.filter(paciente_id=idUs) #Filtro por llave foránea
     datos={
         "lista_medicinas": medicinas,
-        "form":form
+        "idPaciente":idUs
     } 
 
+    STRING_HTML=render_to_string(request=request,template_name="lista-medicamentos.html",context=datos)#el nombre del html
+    return HttpResponse(STRING_HTML)
+
+def registro_medicamentos_view(request,idUs):
     if request.method=="POST":
-        # pasarle el request al formulario para que haga las validaciones del lado del servidor
+    # pasarle el request al formulario para que haga las validaciones del lado del servidor
         form=MedicamentoForm(request.POST)
         print(request.POST)
         print(form.errors)
@@ -151,14 +156,25 @@ def medicamentos_view(request,id):
             medicina_nueva.fecha_prescripcion=datetime.now().date()
             medicina_nueva.indicacion=form.cleaned_data['indicacion']
             medicina_nueva.mese_tratamiento=form.cleaned_data['mese_tratamiento']
-            medicina_nueva.paciente=Usuario.objects.get(id=id)
-            medicina_nueva.save()#guardo en la bd local
-            
-            #Usuario.objects.create(nombre=request.POST["nombre"], correo=request.POST["correo"], contrasena=request.POST["contrasena"],direccion=request.POST["direccion"],fecha_nacimiento=request.POST["fecha_nacimiento"],identificacion=request.POST["identificacion"],establecimiento_de_salud=request.POST["establecimiento_de_salud"])
+            medicina_nueva.paciente=Usuario.objects.get(id=idUs)
+            medicina_nueva.save()#guardo en la bd local    
         else:
             print("No valida")
-    STRING_HTML=render_to_string(request=request,template_name="registro-medicamentos.html",context=datos)#el nombre del html
+    STRING_HTML=render_to_string(request=request,template_name="registrar-medicamentos.html", context={"form":MedicamentoForm(),"idPaciente":idUs})#el nombre del html
     return HttpResponse(STRING_HTML)
+
+def borrar_medicina_view(request,idMed,idUs):
+    medicinaBorrar=Medicina.objects.get(id=idMed)
+    medicinaBorrar.delete()
+    medicinas=Medicina.objects.filter(paciente_id=idUs) #Filtro por llave foránea
+    
+    datos={
+        "lista_medicinas": medicinas,
+        "idPaciente":idUs
+    } 
+    STRING_HTML=render_to_string(template_name="lista-medicamentos.html",context=datos)#el nombre del html
+    return HttpResponse(STRING_HTML)
+#L------------------------------------------------------------diagnosticos del usuario----------------------------------------------------------------------
 
 def diagnosticos_view(request,id,nombre):
     diagnosticos=Diagnostico.objects.filter(pacienteD_id=id) #Filtro por llave foránea

@@ -1,0 +1,50 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+
+
+
+<!-- As a heading -->
+{% block content %}
+<div class="container mt-5">
+  <div class="title text-center">
+    <h1 class="display-5">
+      <i class="fas fa-user-alt text-success"></i> <strong>Medicamentos</strong>
+    </h1>
+  </div>
+  <div class="main row">
+  
+    <div class="col-sm-12">
+    <a href="{% url 'lista' %}" class="btn btn-success">Volver</a>
+    <a href="{% url 'registrarMed' idUs=idPaciente %}" class="btn btn-info">Agregar</a>
+
+
+      <table class="table table-striped mt-5">
+        <thead>
+          <tr>
+            <th >Medicamento</th>
+            <th >Fecha de prescripcion</th>
+            <th >Indicacion</th>
+            <th >Meses de tratamieto</th>
+            <th>opciones</th>
+
+
+          </tr>
+        </thead>
+        <tbody id="book-list">
+          {% for i in lista_medicinas %}
+          <tr>
+            <td>{{ i.medicamento }}</td>
+            <td>{{ i.fecha_prescripcion }}</td>
+            <td>{{ idPaciente }}</td>
+            <td>{{ i.mese_tratamiento }}</td>
+            <td><a href="{% url 'borrarMedicina' idMed=i.id  idUs=idPaciente %}" class="btn btn-danger btn-sm delete">Borrar</a></td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>    
+{% endblock  %}

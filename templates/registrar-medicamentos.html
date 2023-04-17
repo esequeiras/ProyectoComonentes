@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+
+<!-- As a heading -->
+{% block content %}
+<div class="col-sm-12 col-md-4">
+    <h1>Registro</h1>
+    <form   method="post" autocomplete="off">{% csrf_token %}
+      
+        
+          
+            {% for campo in form %}
+            <div class="form-group">
+                {{ campo.label_tag }}
+                {{ campo}}
+        
+              </div>
+            {% endfor %}
+      
+<!--      <input type="submit" value="Edit Book" class="btn btn-success btn-block edit-btn" disabled> -->
+      <input type="submit" value="Agregar" class="btn btn-success btn-block add-btn">
+      <a href="{% url 'medicamentos' idUs=idPaciente %}" class="btn btn-info btn-block add-btn">Volver</a>
+
+    </form>
+  </div>
+  {% endblock  %}
