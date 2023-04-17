@@ -5,7 +5,8 @@ from .models import Usuario
 
 class DateInput(forms.DateInput):
     input_type='date'
-    
+class NumberInput(forms.NumberInput):
+    input_type='number'
 class UsuarioForm(forms.Form):
     nombre=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),label="Nombre",required=True)
     correo=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),label="Correo Electrónico",required=True)
@@ -23,4 +24,14 @@ class LoginForm(forms.Form):
     correo=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-sm'}),label='Correo Electrónico',required=True)
     contrasena=forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control form-control-sm'}),label='Contraseña',required=True)
 
+class MedicamentoForm(forms.Form):
+    medicamento=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),label="Medicamento",required=True)
+    indicacion=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),label="Indicacion",required=True)
+    mese_tratamiento=forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control'}),label="Meses Tratamiento",required=True)
+    
+class DiagnosticoForm(forms.Form):
+    medicamento=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),label="Medicamento",required=True)
+    indicacion=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),label="Indicacion",required=True)
+    mese_tratamiento=forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control'}),label="Meses Tratamiento",required=True)
+    
  

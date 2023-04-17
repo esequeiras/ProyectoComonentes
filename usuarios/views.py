@@ -1,10 +1,12 @@
+from datetime import date
+from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpResponse
 from usuarios.models import Usuario,Medicina,Diagnostico
 from django.contrib import messages
 from django.template.loader import render_to_string
 from . import views
-from .forms import UsuarioForm,LoginForm
+from .forms import UsuarioForm,LoginForm,MedicamentoForm,DiagnosticoForm
 # Create your views here.
 
 
@@ -37,7 +39,7 @@ def usuario_inicio(request):
                         "lista_medicinas": medicinas,
                         "lista_diagnosticos":diagnosticos
                     } 
-                    print(medicinas)
+                    
                     form=UsuarioForm(initial=datos)
                     #STRING_HTML=render_to_string("perfil-usuario.html",context=datos)#el nombre del html  
                     return render(request,"perfil-usuario.html",datos)
@@ -75,8 +77,6 @@ def usuario_registro(request):
 
 def usuario_modificar(request,id):
     usuario_log=Usuario.objects.get(id=id)
-    print(usuario_log.contrasena)
-
     datos={
         "nombre":usuario_log.nombre,
         "correo": usuario_log.correo,
@@ -118,6 +118,7 @@ def doctor_view(request):
     """
     my_lista = Usuario.objects.filter(tipo="paciente")
     #my_lista=Usuario.objects.all()
+    print(my_lista)
     datos={
         "lista_objetos":my_lista 
     }
@@ -125,4 +126,68 @@ def doctor_view(request):
     # usuario=Usuario.objects.create(nombre=, correo=, contrasena)
 
     STRING_HTML=render_to_string("doctor-view.html",context=datos)#el nombre del html
+    return HttpResponse(STRING_HTML)
+
+def medicamentos_view(request,id):
+    print(id,"--------------------------------------------------")
+    medicinas=Medicina.objects.filter(paciente_id=id) #Filtro por llave foránea
+    
+    form=MedicamentoForm()
+    
+    datos={
+        "lista_medicinas": medicinas,
+        "form":form
+    } 
+
+    if request.method=="POST":
+        # pasarle el request al formulario para que haga las validaciones del lado del servidor
+        form=MedicamentoForm(request.POST)
+        print(request.POST)
+        print(form.errors)
+
+        if form.is_valid():
+            print("informacion valida")
+            medicina_nueva=Medicina()
+            medicina_nueva.medicamento=form.cleaned_data['medicamento']
+            medicina_nueva.fecha_prescripcion=datetime.now().date()
+            medicina_nueva.indicacion=form.cleaned_data['indicacion']
+            medicina_nueva.mese_tratamiento=form.cleaned_data['mese_tratamiento']
+            medicina_nueva.paciente=Usuario.objects.get(id=id)
+            medicina_nueva.save()#guardo en la bd local
+            
+            #Usuario.objects.create(nombre=request.POST["nombre"], correo=request.POST["correo"], contrasena=request.POST["contrasena"],direccion=request.POST["direccion"],fecha_nacimiento=request.POST["fecha_nacimiento"],identificacion=request.POST["identificacion"],establecimiento_de_salud=request.POST["establecimiento_de_salud"])
+        else:
+            print("No valida")
+    STRING_HTML=render_to_string(request=request,template_name="registro-medicamentos.html",context=datos)#el nombre del html
+    return HttpResponse(STRING_HTML)
+
+def diagnosticos_view(request,id):
+    diagnosticos=Diagnostico.objects.filter(pacienteD_id=id) #Filtro por llave foránea
+    form=DiagnosticoForm()
+    
+    datos={
+        "lista_diagnosticos":diagnosticos,
+        "form":form
+    } 
+
+    if request.method=="POST":
+        # pasarle el request al formulario para que haga las validaciones del lado del servidor
+        form=DiagnosticoForm(request.POST)
+        
+        print(form.errors)
+
+        if form.is_valid():
+            print("informacion valida")
+            diagnostico_nuevo=Diagnostico()
+            diagnostico_nuevo.diagnostico=form.cleaned_data['diagnostico']
+            diagnostico_nuevo.fecha=datetime.now().date()
+            diagnostico_nuevo.estado=form.cleaned_data['estado']
+            diagnostico_nuevo.doctor=form.cleaned_data['doctor']
+            diagnostico_nuevo.pacienteD=Usuario.objects.get(id=id)
+            diagnostico_nuevo.save()#guardo en la bd local
+            
+            #Usuario.objects.create(nombre=request.POST["nombre"], correo=request.POST["correo"], contrasena=request.POST["contrasena"],direccion=request.POST["direccion"],fecha_nacimiento=request.POST["fecha_nacimiento"],identificacion=request.POST["identificacion"],establecimiento_de_salud=request.POST["establecimiento_de_salud"])
+        else:
+            print("No valida")
+    STRING_HTML=render_to_string(request=request,template_name="registro-disagnostico.html",context=datos)#el nombre del html
     return HttpResponse(STRING_HTML)
