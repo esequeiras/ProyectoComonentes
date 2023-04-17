@@ -30,8 +30,8 @@ class MedicamentoForm(forms.Form):
     mese_tratamiento=forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control'}),label="Meses Tratamiento",required=True)
     
 class DiagnosticoForm(forms.Form):
-    medicamento=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),label="Medicamento",required=True)
-    indicacion=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),label="Indicacion",required=True)
-    mese_tratamiento=forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control'}),label="Meses Tratamiento",required=True)
+    diagnostico=forms.CharField(widget=forms.Textarea(attrs={ 'rows':3, 'cols':30,'class':'form-control'}),label="Diagnostico",required=True)
+    estado=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),label="Estado",required=True)
+    
     
  
