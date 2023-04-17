@@ -6,6 +6,7 @@
 
 <!-- As a heading -->
 {% block content %}
+<h1>{{ us }}</h1>
 <h3 class="card-title text-center">Pacientes</h3>
 
 <div class="container table-responsive py-5"> 
@@ -16,6 +17,7 @@
         <th scope="col">Correo</th>
         <th scope="col">Direccion</th>
         <th scope="col">Opciones</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -24,8 +26,8 @@
           <td>{{i.nombre}}</td>
           <td>{{i.correo}}</td>
           <td>{{i.direccion}}</td>
-         <td><a href="{% url 'medicamentos' i.id %}" class="btn btn-success btn-block add-btn">medicinas </a>
-         <a href="{% url 'diagnosticos' i.id nombreDoc %}" class="btn btn-success btn-block add-btn">diagnosticos </a></td>
+         <td><a href="{% url 'medicamentos' i.id %}" class="btn btn-primary btn-block add-btn">medicinas </a></td>
+         <td><a href="{% url 'diagnosticos' i.id %}" class="btn btn-success btn-block add-btn">diagnosticos </a></td>
 
 
         </tr>
