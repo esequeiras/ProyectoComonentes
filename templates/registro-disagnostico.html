@@ -10,7 +10,7 @@
 <div class="container mt-5">
   <div class="title text-center">
     <h1 class="display-5">
-      <i class="fas fa-user-alt text-success"></i> <strong>Diagnosticos</strong>
+      <i class="fas fa-user-alt text-success"></i> <strong>Registro Diagnostico</strong>
     </h1>
   </div>
   <div class="main row">
@@ -29,36 +29,9 @@
         
 <!--      <input type="submit" value="Edit Book" class="btn btn-success btn-block edit-btn" disabled> -->
         <input type="submit" value="Submit" class="btn btn-success btn-block add-btn">
+        <a href="{% url 'diagnosticos' idUs=idPaciente %}" class="btn btn-info btn-block add-btn">Volver</a>
+
       </form>
-    </div>
-    <div class="col-sm-12 col-md-8">
-    <a href="{% url 'lista' nombre %}" class="btn btn-success btn-block add-btn">Volver</a>
-
-      <table class="table table-striped mt-5">
-        <thead>
-          <tr>
-            <th >Fecha Diagnostico</th>
-            <th >Diagnostico</th>
-            <th >Doctor</th>
-            <th >Estado</th>
-            <th>opciones</th>
-
-
-          </tr>
-        </thead>
-        <tbody id="book-list">
-          {% for i in lista_diagnosticos %}
-          <tr>
-            <td>{{ i.fecha }}</td>
-            <td>{{ i.diagnostico }}</td>
-            <td>{{ i.doctor }}</td>
-            <td>{{ i.estado }}</td>
-
-            <td><a href="{% url 'borrarDiagnostico' idDiacnostico=i.id  idUs=idPaciente nombre=nombre %}" class="btn btn-danger btn-sm delete">Borrar</a></td>
-            {% endfor %}
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
   </div>    

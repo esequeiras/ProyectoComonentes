@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+
+<!-- As a heading -->
+{% block content %}
+<div class="container mt-5">
+    <div class="title text-center">
+        <h1 class="display-5">
+          <i class="fas fa-user-alt text-success"></i> <strong>Diagnosticos</strong>
+        </h1>
+      </div>
+    <div class="main row">
+
+        <div class="col-sm-12">
+            <a href="{% url 'lista' %}" class="btn btn-success">Volver</a>
+            <a href="{% url 'registrarDiag' idUs=idPaciente %}" class="btn btn-info">Agregar</a>
+        
+        
+            <table class="table table-striped mt-5">
+                <thead>
+                  <tr>
+                    <th >Fecha Diagnostico</th>
+                    <th >Diagnostico</th>
+                    <th >Doctor</th>
+                    <th >Estado</th>
+                    <th>opciones</th>
+        
+        
+                  </tr>
+                </thead>
+                <tbody id="book-list">
+                  {% for i in lista_diagnosticos %}
+                  <tr>
+                    <td>{{ i.fecha }}</td>
+                    <td>{{ i.diagnostico }}</td>
+                    <td>{{ i.doctor }}</td>
+                    <td>{{ i.estado }}</td>
+        
+                    <td><a href="{% url 'borrarDiagnostico' idDiacnostico=i.id  idUs=idPaciente %}" class="btn btn-danger btn-sm delete">Borrar</a></td>
+                    {% endfor %}
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock  %}

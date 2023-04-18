@@ -14,8 +14,9 @@ urlpatterns = [
     path('registrarMed/<int:idUs>',views.registro_medicamentos_view, name="registrarMed"),
 
 
-    path('diagnosticos/<int:id>',views.diagnosticos_view, name="diagnosticos"),
-    path('borrarDiagnostico/<int:idDiacnostico>/<int:idUs>/<str:nombre>',views.borrar_diagnosticos_view, name="borrarDiagnostico"),
+    path('diagnosticos/<int:idUs>',views.diagnosticos_view, name="diagnosticos"),
+    path('registrarDiag/<int:idUs>',views.registro_diagnosticos_view, name="registrarDiag"),
+    path('borrarDiagnostico/<int:idDiacnostico>/<int:idUs>',views.borrar_diagnosticos_view, name="borrarDiagnostico"),
 
 
 

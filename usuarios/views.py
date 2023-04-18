@@ -176,22 +176,16 @@ def borrar_medicina_view(request,idMed,idUs):
     return HttpResponse(STRING_HTML)
 #L------------------------------------------------------------diagnosticos del usuario----------------------------------------------------------------------
 
-def diagnosticos_view(request,id,nombre):
-    diagnosticos=Diagnostico.objects.filter(pacienteD_id=id) #Filtro por llave foránea
-    form=DiagnosticoForm()
-    
+def diagnosticos_view(request,idUs):
+    diagnosticos=Diagnostico.objects.filter(pacienteD_id=idUs) #Filtro por llave foránea
     datos={
         "lista_diagnosticos":diagnosticos,
-        "nombre":nombre,
-        "form":form,
-        "idPaciente":id
+        "idPaciente":idUs
     } 
 
     if request.method=="POST":
         # pasarle el request al formulario para que haga las validaciones del lado del servidor
         form=DiagnosticoForm(request.POST)
-        
-        print(form.errors)
 
         if form.is_valid():
             print("informacion valida")
@@ -199,29 +193,44 @@ def diagnosticos_view(request,id,nombre):
             diagnostico_nuevo.diagnostico=form.cleaned_data['diagnostico']
             diagnostico_nuevo.fecha=datetime.now().date()
             diagnostico_nuevo.estado=form.cleaned_data['estado']
-            diagnostico_nuevo.doctor=nombre
+            diagnostico_nuevo.doctor=LOG_US.nombre
             diagnostico_nuevo.pacienteD=Usuario.objects.get(id=id)
             diagnostico_nuevo.save()#guardo en la bd local
-            
-            #Usuario.objects.create(nombre=request.POST["nombre"], correo=request.POST["correo"], contrasena=request.POST["contrasena"],direccion=request.POST["direccion"],fecha_nacimiento=request.POST["fecha_nacimiento"],identificacion=request.POST["identificacion"],establecimiento_de_salud=request.POST["establecimiento_de_salud"])
         else:
             print("No valida")
-    STRING_HTML=render_to_string(request=request,template_name="registro-disagnostico.html",context=datos)#el nombre del html
+    STRING_HTML=render_to_string(request=request,template_name="lista-diagnosticos.html",context=datos)#el nombre del html
     return HttpResponse(STRING_HTML)
 
-def borrar_diagnosticos_view(request,idDiacnostico,idUs,nombre):
+def registro_diagnosticos_view(request,idUs):
+
+    if request.method=="POST":
+        # pasarle el request al formulario para que haga las validaciones del lado del servidor
+        form=DiagnosticoForm(request.POST)
+
+        if form.is_valid():
+            print("informacion valida")
+            diagnostico_nuevo=Diagnostico()
+            diagnostico_nuevo.diagnostico=form.cleaned_data['diagnostico']
+            diagnostico_nuevo.fecha=datetime.now().date()
+            diagnostico_nuevo.estado=form.cleaned_data['estado']
+            diagnostico_nuevo.doctor=LOG_US.nombre
+            diagnostico_nuevo.pacienteD=Usuario.objects.get(id=idUs)
+            diagnostico_nuevo.save()#guardo en la bd local
+        else:
+            print("No valida")
+    STRING_HTML=render_to_string(request=request,template_name="registro-disagnostico.html", context={"form":DiagnosticoForm(),"idPaciente":idUs})#el nombre del html
+    return HttpResponse(STRING_HTML)
+
+def borrar_diagnosticos_view(request,idDiacnostico,idUs):
     diagnosticoBorrar=Diagnostico.objects.get(id=idDiacnostico)
     diagnosticoBorrar.delete()
     diagnosticos=Diagnostico.objects.filter(pacienteD_id=idUs) #Filtro por llave foránea
-    form=DiagnosticoForm()
     
     datos={
         "lista_diagnosticos":diagnosticos,
-        "nombre":nombre,
-        "form":form,
         "idPaciente":idUs
         
     } 
 
-    STRING_HTML=render_to_string(request=request,template_name="registro-disagnostico.html",context=datos)#el nombre del html
+    STRING_HTML=render_to_string(template_name="lista-diagnosticos.html",context=datos)#el nombre del html
     return HttpResponse(STRING_HTML)
