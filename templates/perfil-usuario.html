@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>{{ nombre }}</h1>
-<a href="{% url 'modificar' id %}">ver mi informacion</a>
+<a href="{% url 'modificar' %}">ver mi informacion</a>
 
 
 
@@ -26,8 +26,9 @@
           <td>{{ i.fecha_prescripcion }}</td>
           <td>{{ i.indicacion }}</td>
           <td>{{ i.mese_tratamiento }}</td>
-        {% endfor %}
         </tr>
+        {% endfor %}
+
     </tbody>
 
   </table>
@@ -53,8 +54,9 @@
           <td>{{ i.doctor }}</td>
           <td>{{ i.estado }}</td>
 
-        {% endfor %}
         </tr>
+        {% endfor %}
+
     </tbody>
 
   </table>

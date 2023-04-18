@@ -1,26 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="global-container">
-    <div class="card login-form">
-      <div class="card-body">
-        <h3 class="card-title text-center">Iniciar Sesion</h3>
-        <div class="card-text">
-  
-          <form class="registro"  method="post">{% csrf_token %}
-            
-              {% for campo in form %}
-              <div class="row mb-4">
-                  {{ campo.label_tag }}
-                  {{ campo}}
-          
+<div class="row">
+  <div class="col-md-4 offset-md-4">
+     
+      <div class="card">
+          <div class="card-body">
+            <h2>Modificar mi información</h2>
+              <form method="POST">{% csrf_token %}
+                  <div class="form-group">
+                      <input type="text" id="nombre" name="nombre" value="{{us.nombre}}" class="form-control" 
+                          minlength="6" maxlength="6" required>
+                  </div>
+                  <div class="form-group">
+                      <input type="text" id="identificacion" name="identificacion" value="{{us.identificacion}}" class="form-control"
+                          maxlength="50" readonly required>
+                  </div>
+                  <div class="form-group">
+                      <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="{{us.fecha_nacimiento}}" class="form-control"
+                        required>
+                  </div>
+                  <div class="form-group">
+                    <input type="email" id="correo" name="correo" value="{{us.correo}}" class="form-control"
+                        maxlength="50" readonly required>
                 </div>
-              {% endfor %}
-              <button type="submit" class="btn btn-primary btn-block">Modificar</button>
-                 
-          </form>
-        </div>
+                <div class="form-group">
+                  <input type="password" id="contrasena" name="contrasena" value="{{us.contrasena}}" class="form-control"
+                      maxlength="50" required>
+                </div>
+                <div class="form-group">
+                  <input type="password" id="contrasena_confirmacion" name="contrasena_confirmacion" value="{{us.contrasena}}" class="form-control"
+                      maxlength="50" required>
+                </div>
+                <div class="form-group">
+                  <input type="text" id="establecimiento_de_salud" name="establecimiento_de_salud" value="{{us.establecimiento_de_salud}}" class="form-control"
+                      maxlength="50" required>
+                </div>
+                <div class="form-group">
+                  <textarea name="direccion" rows="3" cols="30" class="form-control">{{us.direccion}}</textarea>
+                </div>
+                  <div class="form-group">
+                      <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                      <a href="{% url 'perfil' %}" class="btn btn-info btn-block text-white">Volver</a>
+
+                  </div>
+              </form>
+          </div>
       </div>
-    </div>
   </div>
+</div>
+  
 {% endblock  %}

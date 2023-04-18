@@ -57,60 +57,55 @@ def usuario_registro(request):
         # pasarle el request al formulario para que haga las validaciones del lado del servidor
         form=UsuarioForm(request.POST)
         print(request.POST)
-        if form.is_valid():
-            print("informacion valida")
-            usuario_nuevo=Usuario()
-            usuario_nuevo.nombre=form.cleaned_data['nombre']
-            usuario_nuevo.correo=form.cleaned_data['correo']
-            usuario_nuevo.contrasena=form.cleaned_data['contrasena']
-            usuario_nuevo.direccion=form.cleaned_data['direccion']
-            usuario_nuevo.fecha_nacimiento=form['fecha_nacimiento'].value()
-            usuario_nuevo.identificacion=form.cleaned_data['identificacion']
-            usuario_nuevo.establecimiento_de_salud=form.cleaned_data['establecimiento_de_salud']
-            usuario_nuevo.save()#guardo en la bd local
-           
-            #Usuario.objects.create(nombre=request.POST["nombre"], correo=request.POST["correo"], contrasena=request.POST["contrasena"],direccion=request.POST["direccion"],fecha_nacimiento=request.POST["fecha_nacimiento"],identificacion=request.POST["identificacion"],establecimiento_de_salud=request.POST["establecimiento_de_salud"])
+        if request.POST['contrasena']!=request.POST['contrasena_confirmacion']:
+            messages.add_message(request=request,level=messages.ERROR,message="Las contraseñas no coinciden")     
         else:
-            print("No valida")
+            if form.is_valid():
+                print("informacion valida")
+                usuario_nuevo=Usuario()
+                usuario_nuevo.nombre=form.cleaned_data['nombre']
+                usuario_nuevo.correo=form.cleaned_data['correo']
+                usuario_nuevo.contrasena=form.cleaned_data['contrasena']
+                usuario_nuevo.direccion=form.cleaned_data['direccion']
+                usuario_nuevo.fecha_nacimiento=form['fecha_nacimiento'].value()
+                usuario_nuevo.identificacion=form.cleaned_data['identificacion']
+                usuario_nuevo.establecimiento_de_salud=form.cleaned_data['establecimiento_de_salud']
+                usuario_nuevo.save()#guardo en la bd local
+            
+                #Usuario.objects.create(nombre=request.POST["nombre"], correo=request.POST["correo"], contrasena=request.POST["contrasena"],direccion=request.POST["direccion"],fecha_nacimiento=request.POST["fecha_nacimiento"],identificacion=request.POST["identificacion"],establecimiento_de_salud=request.POST["establecimiento_de_salud"])
+            else:
+                print("No valida")
     return render(request,"registro-usuarios.html",{'form':UsuarioForm()})
 
 
-def usuario_modificar(request,id):
-    usuario_log=Usuario.objects.get(id=id)
-    datos={
-        "nombre":usuario_log.nombre,
-        "correo": usuario_log.correo,
-        "contrasena":usuario_log.contrasena,
-        "fecha_nacimiento":usuario_log.fecha_nacimiento,
-        "establecimiento_de_salud":usuario_log.establecimiento_de_salud,
-        "identificacion":usuario_log.identificacion,
-        "direccion":usuario_log.direccion
-    }
-    form=UsuarioForm(initial=datos)
-    #form["correo"].field.widget.attrs['disabled'] = True
-    #form["identificacion"].field.widget.attrs['disabled'] = True
-
+def usuario_modificar(request):
+    global LOG_US
+    
     if request.method=="POST":
-        # pasarle el request al formulario para que haga las validaciones del lado del servidor
-        form=UsuarioForm(request.POST)
-        print(request.POST)
-        if form.is_valid():
-            print("informacion valida")
-            usuario_nuevo=Usuario()
-            usuario_nuevo.pk=usuario_log.pk
-            usuario_nuevo.nombre=form.cleaned_data['nombre']
-            usuario_nuevo.correo=usuario_log.correo
-            usuario_nuevo.contrasena=form.cleaned_data['contrasena']
-            usuario_nuevo.direccion=form.cleaned_data['direccion']
-            usuario_nuevo.fecha_nacimiento=form['fecha_nacimiento'].value()
-            usuario_nuevo.identificacion=usuario_log.identificacion
-            usuario_nuevo.establecimiento_de_salud=form.cleaned_data['establecimiento_de_salud']
-            usuario_nuevo.save()#guardo en la bd local
-            return render(request,"modificar-usuario.html",{'form':form})
-        else:
-            print("No valida")
-    return render(request,"modificar-usuario.html",{'form':form})
-
+        usuario_nuevo=Usuario()
+        usuario_nuevo.pk=LOG_US.pk
+        usuario_nuevo.nombre=request.POST['nombre']
+        usuario_nuevo.correo=LOG_US.correo
+        usuario_nuevo.contrasena=request.POST['contrasena']
+        usuario_nuevo.direccion=request.POST['direccion']
+        usuario_nuevo.fecha_nacimiento=request.POST['fecha_nacimiento']
+        usuario_nuevo.identificacion=LOG_US.identificacion
+        usuario_nuevo.establecimiento_de_salud=request.POST['establecimiento_de_salud']
+        usuario_nuevo.save()#guardo en la bd local
+        return render(request,"modificar-usuario.html",{'us':Usuario.objects.get(id=usuario_nuevo.pk)})
+    return render(request,"modificar-usuario.html",{'us':Usuario.objects.get(id=LOG_US.pk)})
+def perfil_usuario(request):
+    global LOG_US
+    medicinas=Medicina.objects.filter(paciente_id=LOG_US.pk) #Filtro por llave foránea
+    diagnosticos=Diagnostico.objects.filter(pacienteD_id=LOG_US.pk) #Filtro por llave foránea
+    datos={
+        "id":LOG_US.pk,
+        "nombre":LOG_US.nombre,
+        "correo": LOG_US.correo,
+        "lista_medicinas": medicinas,
+        "lista_diagnosticos":diagnosticos
+    } 
+    return render(request,"perfil-usuario.html",datos)
 #listar pacientes
 def doctor_view(request):
     """

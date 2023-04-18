@@ -1,7 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form  method="post">{% csrf_token %}
+{% if messages %}
+  {% for message in messages %}
+  <div{% if message.tags %} class="alert alert-danger"{% endif %}>{{ message }}</div>
+  {% endfor %}
+        
+{% endif %}
+<div class="container mt-5">
+  <div class="main row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+
+        <div class="card-body">
+          <h3 class="card-title text-center">Crear Cuenta</h3>
+
+  <form  method="post">{% csrf_token %}
     {% for campo in form %}
       <div>
         {{ campo.label_tag }}
@@ -9,7 +23,13 @@
 
       </div>
     {% endfor %}
-    <input type="submit" value="Registrarme">
+    <input type="submit" value="Registrarme" class="btn btn-info btn-block add-btn">
 
 </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock  %}

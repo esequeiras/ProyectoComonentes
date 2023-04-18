@@ -13,11 +13,13 @@
   {% endfor %}
         
 {% endif %}
-<div class="global-container">
-  <div class="card login-form">
-    <div class="card-body">
-      <h3 class="card-title text-center">Iniciar Sesion</h3>
-      <div class="card-text">
+<div class="container mt-5">
+<div class="row">
+<div class="col-md-4 offset-md-4">
+      <div class="card">
+
+        <div class="card-body">
+          <h3 class="card-title text-center">Iniciar Sesion</h3>
 
         <form  method="post">{% csrf_token %}
           
@@ -31,10 +33,12 @@
             <button type="submit" class="btn btn-primary btn-block">iniciar sesion</button>
             <div><a href="{% url 'registro' %}">Crear cuenta</a></div>   
         </form>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
+</div>
+</div>
 {% endblock  %}
    

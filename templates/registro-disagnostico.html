@@ -8,30 +8,33 @@
 <!-- As a heading -->
 {% block content %}
 <div class="container mt-5">
-  <div class="title text-center">
-    <h1 class="display-5">
-      <i class="fas fa-user-alt text-success"></i> <strong>Registro Diagnostico</strong>
-    </h1>
-  </div>
-  <div class="main row">
-    <div class="col-sm-12 col-md-4">
-      <form   method="post" autocomplete="off">
-        
-        {% csrf_token %}
-            
-              {% for campo in form %}
-              <div class="form-group">
-                  {{ campo.label_tag }}
-                  {{ campo}}
-          
-                </div>
-              {% endfor %}
-        
-<!--      <input type="submit" value="Edit Book" class="btn btn-success btn-block edit-btn" disabled> -->
-        <input type="submit" value="Submit" class="btn btn-success btn-block add-btn">
-        <a href="{% url 'diagnosticos' idUs=idPaciente %}" class="btn btn-info btn-block add-btn">Volver</a>
 
-      </form>
+  <div class="main row">
+    <div class="col-md-4 offset-md-4">
+      <div class="card">
+
+        <div class="card-body">
+          <h3 class="card-title text-center">Registro Diagnostico</h3>
+
+          <form   method="post" autocomplete="off">
+            
+            {% csrf_token %}
+                
+                  {% for campo in form %}
+                  <div class="form-group">
+                      {{ campo.label_tag }}
+                      {{ campo}}
+              
+                    </div>
+                  {% endfor %}
+            
+    <!--      <input type="submit" value="Edit Book" class="btn btn-success btn-block edit-btn" disabled> -->
+            <input type="submit" value="Submit" class="btn btn-success btn-block add-btn">
+            <a href="{% url 'diagnosticos' idUs=idPaciente %}" class="btn btn-info btn-block add-btn">Volver</a>
+
+          </form>
+        </div>
+      </div>
     </div>
   </div>
   </div>    

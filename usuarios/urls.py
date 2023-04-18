@@ -5,8 +5,10 @@ urlpatterns = [
     #path('',home_view),#index
     path('',views.usuario_inicio,name='inicio'),
     path('registro/',views.usuario_registro, name="registro"),
-    path('modificar/<int:id>',views.usuario_modificar, name="modificar"),
+    path('modificar/',views.usuario_modificar, name="modificar"),
     path('lista/',views.doctor_view,name='lista'),
+    path('perfil/',views.perfil_usuario,name='perfil'),
+    
 
     #Registro listado y borrado de medicamentos
     path('medicamentos/<int:idUs>',views.medicamentos_view, name="medicamentos"),
