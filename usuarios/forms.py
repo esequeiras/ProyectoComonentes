@@ -30,7 +30,6 @@ class MedicamentoForm(forms.Form):
     
 class DiagnosticoForm(forms.Form):
     diagnostico=forms.CharField(widget=forms.Textarea(attrs={ 'rows':3, 'cols':30,'class':'form-control'}),label="Diagnostico",required=True)
-    estado=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),label="Estado",required=True)
     
     
  

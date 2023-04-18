@@ -177,22 +177,6 @@ def diagnosticos_view(request,idUs):
         "lista_diagnosticos":diagnosticos,
         "idPaciente":idUs
     } 
-
-    if request.method=="POST":
-        # pasarle el request al formulario para que haga las validaciones del lado del servidor
-        form=DiagnosticoForm(request.POST)
-
-        if form.is_valid():
-            print("informacion valida")
-            diagnostico_nuevo=Diagnostico()
-            diagnostico_nuevo.diagnostico=form.cleaned_data['diagnostico']
-            diagnostico_nuevo.fecha=datetime.now().date()
-            diagnostico_nuevo.estado=form.cleaned_data['estado']
-            diagnostico_nuevo.doctor=LOG_US.nombre
-            diagnostico_nuevo.pacienteD=Usuario.objects.get(id=id)
-            diagnostico_nuevo.save()#guardo en la bd local
-        else:
-            print("No valida")
     STRING_HTML=render_to_string(request=request,template_name="lista-diagnosticos.html",context=datos)#el nombre del html
     return HttpResponse(STRING_HTML)
 
@@ -201,13 +185,13 @@ def registro_diagnosticos_view(request,idUs):
     if request.method=="POST":
         # pasarle el request al formulario para que haga las validaciones del lado del servidor
         form=DiagnosticoForm(request.POST)
-
+        print(request.POST['estado'])
         if form.is_valid():
             print("informacion valida")
             diagnostico_nuevo=Diagnostico()
             diagnostico_nuevo.diagnostico=form.cleaned_data['diagnostico']
             diagnostico_nuevo.fecha=datetime.now().date()
-            diagnostico_nuevo.estado=form.cleaned_data['estado']
+            diagnostico_nuevo.estado=request.POST['estado']
             diagnostico_nuevo.doctor=LOG_US.nombre
             diagnostico_nuevo.pacienteD=Usuario.objects.get(id=idUs)
             diagnostico_nuevo.save()#guardo en la bd local
