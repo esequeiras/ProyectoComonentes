@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.template.loader import render_to_string
 from . import views
 from .forms import UsuarioForm,LoginForm,MedicamentoForm,DiagnosticoForm
+from django.core.mail import EmailMessage
+from django.conf import settings
 # Create your views here.
 
 
@@ -71,7 +73,21 @@ def usuario_registro(request):
                 usuario_nuevo.identificacion=form.cleaned_data['identificacion']
                 usuario_nuevo.establecimiento_de_salud=form.cleaned_data['establecimiento_de_salud']
                 usuario_nuevo.save()#guardo en la bd local
-            
+                template=render_to_string("email-view.html",{
+                    "nombre":usuario_nuevo.nombre,
+                    "correo":usuario_nuevo.correo,
+                    "mensaje":"usted ha creado una cuenta en citas y mas"
+                })
+                email=EmailMessage(
+                                    "Creacion de Cuenta en Citas",
+                                   template,
+                                   settings.EMAIL_HOST_USER,
+                                   [usuario_nuevo.correo]
+                                   )
+                email.fail_silently=False
+                email.send()
+                messages.add_message(request=request,level=messages.SUCCESS,message="Se ha enviado un correo")     
+
                 #Usuario.objects.create(nombre=request.POST["nombre"], correo=request.POST["correo"], contrasena=request.POST["contrasena"],direccion=request.POST["direccion"],fecha_nacimiento=request.POST["fecha_nacimiento"],identificacion=request.POST["identificacion"],establecimiento_de_salud=request.POST["establecimiento_de_salud"])
             else:
                 print("No valida")
@@ -94,6 +110,7 @@ def usuario_modificar(request):
         usuario_nuevo.save()#guardo en la bd local
         return render(request,"modificar-usuario.html",{'us':Usuario.objects.get(id=usuario_nuevo.pk)})
     return render(request,"modificar-usuario.html",{'us':Usuario.objects.get(id=LOG_US.pk)})
+
 def perfil_usuario(request):
     global LOG_US
     medicinas=Medicina.objects.filter(paciente_id=LOG_US.pk) #Filtro por llave foránea
@@ -213,3 +230,5 @@ def borrar_diagnosticos_view(request,idDiacnostico,idUs):
 
     STRING_HTML=render_to_string(template_name="lista-diagnosticos.html",context=datos)#el nombre del html
     return HttpResponse(STRING_HTML)
+#------------------------------------------------------correo------------------------------------------------------------------------------
+
