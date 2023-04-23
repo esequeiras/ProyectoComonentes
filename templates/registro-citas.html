@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-4 offset-md-4">
+     
+      <div class="card">
+          <div class="card-body">
+            <h2>Agendar cita</h2>
+              <form method="POST">{% csrf_token %}
+                  <div class="form-group">
+                      <input type="text" id="nombre" name="nombre" value="{{us.nombre}}" class="form-control" readonly required>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" id="establecimiento_de_salud" name="establecimiento_de_salud" value="{{us.establecimiento_de_salud}}" class="form-control"
+                        maxlength="50" readonly required>
+                  </div>
+                  <div class="form-group">
+                      <label for="servicio">Servicio</label>
+                      <select class="form-control" name="servicio" id="servicio">
+                        <option value="Medicina">Medicina</option>
+                        <option value="Odontologia">Odontologia</option>
+                      </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="especiallidad">Especialidad</label>
+                    <select class="form-control" name="especialidad" id="especialidad">
+                      <option value="Medicina General">Medicina General</option>
+                      <option value="Odontologia General">Odontologia General</option>
+                    </select>
+                </div>
+                  <div class="form-group">
+                    <label for="Fecha">Fecha</label>
+
+                      <input type="date" id="fecha_cita" name="fecha_cita" value="{{us.fecha_cita}}" class="form-control"
+                        required min="{{ min }}" max="{{ max }}">
+                  </div>
+                 
+               
+
+                  <div class="form-group">
+                      <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                      <a href="{% url 'perfil' %}" class="btn btn-info btn-block text-white">Volver</a>
+
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+  
+{% endblock  %}

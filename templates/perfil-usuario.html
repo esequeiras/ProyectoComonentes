@@ -1,16 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ nombre }}</h1>
-<a href="{% url 'modificar' %}">ver mi informacion</a>
 
 
+<div class="title text-center">
+  <h2 class="display-5">
+    <i class="fas fa-user-alt text-success"></i>{{ nombre }}
+    <i><a href="{% url 'modificar' %}" class="btn btn-success">ver mi informacion</a> </i>
+    <i><a href="{% url 'cita' %}" class="btn btn-info">Agendar cita</a> </i>
 
+
+  </h2>
+</div>
 <hr>
-<div class="container table-responsive py-5"> 
-<h1>Medicamentos</h1>
 
-  <table class="table table-bordered table-hover">
+<div class="container table-responsive py-5"> 
+  <h3>Proximas citas</h3>
+  
+    <table class="table table-striped mt-5">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Dia</th>
+          <th scope="col">Servicio</th>
+          <th scope="col">Especialidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in lista_citas %}
+          <tr>
+            <td>{{ i.fecha_cita }}</td>
+            <td>{{ i.servicio }}</td>
+            <td>{{ i.especialidad }}</td>
+
+          </tr>
+          {% endfor %}
+  
+      </tbody>
+  
+    </table>
+  </div>
+
+
+<div class="container table-responsive py-5"> 
+<h3>Medicamentos</h3>
+
+  <table class="table table-striped mt-5">
     <thead class="thead-dark">
       <tr>
         <th scope="col">Medicamento</th>
@@ -35,9 +69,9 @@
 </div>
 
 <div class="container table-responsive py-5"> 
-<h1>Diagnosticos</h1>
+<h3>Diagnosticos</h3>
 
-  <table class="table table-bordered table-hover">
+  <table class="table table-striped mt-5">
     <thead class="thead-dark">
       <tr>
         <th scope="col">Fecha</th>

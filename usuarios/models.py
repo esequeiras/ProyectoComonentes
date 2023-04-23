@@ -25,3 +25,8 @@ class Diagnostico(models.Model):
     doctor=models.TextField()
     pacienteD=models.ForeignKey(Usuario,on_delete=models.DO_NOTHING)
 
+class Cita(models.Model):
+    pacienteC=models.ForeignKey(Usuario,on_delete=models.DO_NOTHING)
+    servicio=models.TextField()
+    especialidad=models.TextField()
+    fecha_cita=models.TextField() 

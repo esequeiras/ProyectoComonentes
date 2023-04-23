@@ -1,8 +1,8 @@
-from datetime import date
+from datetime import date,timedelta
 from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpResponse
-from usuarios.models import Usuario,Medicina,Diagnostico
+from usuarios.models import Usuario,Medicina,Diagnostico,Cita
 from django.contrib import messages
 from django.template.loader import render_to_string
 from . import views
@@ -112,17 +112,34 @@ def usuario_modificar(request):
     return render(request,"modificar-usuario.html",{'us':Usuario.objects.get(id=LOG_US.pk)})
 
 def perfil_usuario(request):
+
     global LOG_US
     medicinas=Medicina.objects.filter(paciente_id=LOG_US.pk) #Filtro por llave foránea
     diagnosticos=Diagnostico.objects.filter(pacienteD_id=LOG_US.pk) #Filtro por llave foránea
+    citas=Cita.objects.filter(pacienteC_id=LOG_US.pk)
     datos={
         "id":LOG_US.pk,
         "nombre":LOG_US.nombre,
         "correo": LOG_US.correo,
         "lista_medicinas": medicinas,
-        "lista_diagnosticos":diagnosticos
+        "lista_diagnosticos":diagnosticos,
+        "lista_citas":citas
     } 
     return render(request,"perfil-usuario.html",datos)
+
+def cita_view(request):
+    global LOG_US
+    if request.method=="POST":
+        cita_nueva=Cita()
+    
+        cita_nueva.especialidad=request.POST['especialidad']
+        cita_nueva.pacienteC=LOG_US
+        cita_nueva.servicio=request.POST['servicio']
+        cita_nueva.fecha_cita=request.POST['fecha_cita']
+        cita_nueva.save()#guardo en la bd local
+    return render(request,"registro-citas.html",{'us':LOG_US,
+                                                 "min":f"{date.today().year}-0{date.today().month}-{date.today().day+1}",
+                                                 "max":f"{date.today().year}-0{date.today().month}-{date.today().day+3}"})
 #listar pacientes
 def doctor_view(request):
     """

@@ -8,7 +8,7 @@ urlpatterns = [
     path('modificar/',views.usuario_modificar, name="modificar"),
     path('lista/',views.doctor_view,name='lista'),
     path('perfil/',views.perfil_usuario,name='perfil'),
-    
+    path('cita/',views.cita_view,name='cita'),
 
     #Registro listado y borrado de medicamentos
     path('medicamentos/<int:idUs>',views.medicamentos_view, name="medicamentos"),
