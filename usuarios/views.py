@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from usuarios.models import Usuario,Medicina,Diagnostico,Cita
 from django.contrib import messages
+from django.contrib.auth import logout
+
 from django.template.loader import render_to_string
 from . import views
 from .forms import UsuarioForm,LoginForm,MedicamentoForm,DiagnosticoForm
@@ -32,14 +34,15 @@ def usuario_inicio(request):
                         return doctor_view(request)
                     medicinas=Medicina.objects.filter(paciente_id=us.pk) #Filtro por llave foránea
                     diagnosticos=Diagnostico.objects.filter(pacienteD_id=us.pk) #Filtro por llave foránea
-                    
+                    citas=Cita.objects.filter(pacienteC_id=us.pk)
 
                     datos={
                         "id":us.pk,
                         "nombre":us.nombre,
                         "correo": us.correo,
                         "lista_medicinas": medicinas,
-                        "lista_diagnosticos":diagnosticos
+                        "lista_diagnosticos":diagnosticos,
+                        "lista_citas":citas
                     } 
                     
                     form=UsuarioForm(initial=datos)
@@ -249,3 +252,7 @@ def borrar_diagnosticos_view(request,idDiacnostico,idUs):
     return HttpResponse(STRING_HTML)
 #------------------------------------------------------correo------------------------------------------------------------------------------
 
+def salir(request):
+    logout(request=request)
+    STRING_HTML=render_to_string(template_name="inicio-usuarios.html")#el nombre del html
+    return HttpResponse(STRING_HTML)
