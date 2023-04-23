@@ -79,10 +79,10 @@ def usuario_registro(request):
                 template=render_to_string("email-view.html",{
                     "nombre":usuario_nuevo.nombre,
                     "correo":usuario_nuevo.correo,
-                    "mensaje":"usted ha creado una cuenta en citas y mas"
+                    "mensaje":"usted ha creado una cuenta en CENDUS"
                 })
                 email=EmailMessage(
-                                    "Creacion de Cuenta en Citas",
+                                    "Creación de Cuenta en CENDUS",
                                    template,
                                    settings.EMAIL_HOST_USER,
                                    [usuario_nuevo.correo]
