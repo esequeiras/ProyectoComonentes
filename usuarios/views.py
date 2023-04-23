@@ -39,6 +39,8 @@ def usuario_inicio(request):
                     datos={
                         "id":us.pk,
                         "nombre":us.nombre,
+                        "dato":"hola",
+
                         "correo": us.correo,
                         "lista_medicinas": medicinas,
                         "lista_diagnosticos":diagnosticos,
